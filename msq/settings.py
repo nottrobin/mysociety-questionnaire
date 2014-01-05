@@ -62,6 +62,12 @@ DATABASES = {
     }
 }
 
+# Use the database URL, if available
+import dj_database_url
+if len(dj_database_url.config().keys()) != 0:
+    DATABASES = {'default': dj_database_url.config()}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
