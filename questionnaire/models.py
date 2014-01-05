@@ -10,4 +10,17 @@ class Party(models.Model):
 
     name = models.CharField(max_length=200)
     abbreviation = models.CharField(max_length=10)
- 
+
+class AnswerSet(models.Model):
+    """ Database model for sets of answers """
+
+    VOTE_OPTIONS = (
+        ('yes', "Yes"),
+        ('no', "No"),
+        ('undecided', "Undecided"),
+    )
+
+    constituency = models.ForeignKey(Constituency)
+    going_to_vote = models.CharField(max_length=10, choices=VOTE_OPTIONS)
+    voting_for = models.ForeignKey(Party)
+

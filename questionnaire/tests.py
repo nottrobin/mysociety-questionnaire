@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from questionnaire.models import Constituency, Party
+from questionnaire.models import Constituency, Party, AnswerSet
 
 class ConstituencyTests(TestCase):
     """ Test the Constituency model """
@@ -8,15 +8,14 @@ class ConstituencyTests(TestCase):
     def test_creation(self):
         """ Create constituency, save in database, retrieve """
 
-        name = "Merthyr Tydfil and Rhymney"
-        constituency = Constituency(name=name)
+        constituency = Constituency(name="Merthyr Tydfil and Rhymney")
         self.assertIsNone(constituency.id)
         constituency.save()
         self.assertIsNotNone(constituency.id)
         self.assertIs(type(constituency.id), int)
 
         constituency_again = Constituency.objects.get(id=constituency.id)
-        self.assertEqual(name, constituency_again.name)
+        self.assertEqual(constituency.name, constituency_again.name)
 
 class PartyTests(TestCase):
     """ Tests for Party model """
@@ -24,15 +23,31 @@ class PartyTests(TestCase):
     def test_creation(self):
         """ Create party, save, retrieve """
 
-        name = "Plaid Cymru"
-        abbreviation = "PC"
-
-        party = Party(name=name, abbreviation=abbreviation)
+        party = Party(name="Plaid Cymru", abbreviation="PC")
         self.assertIsNone(party.id)
         party.save()
         self.assertIsNotNone(party.id)
         self.assertIs(type(party.id), int)
 
         party_again = Party.objects.get(id=party.id)
-        self.assertEqual(name, party_again.name)
-        self.assertEqual(abbreviation, party_again.abbreviation)
+        self.assertEqual(party.name, party_again.name)
+        self.assertEqual(party.abbreviation, party_again.abbreviation)
+
+class AnswerSetTests(TestCase):
+    """ Test the AnswerSet model """
+
+    def test_creation(self):
+        """ Create answerset """
+
+        constituency = Constituency(name="Merthyr Tydfil and Rhymney")
+        constituency.save()
+
+        party = Party(name="Plaid Cymru", abbreviation="PC")
+        party.save()
+
+        answers = AnswerSet(
+            constituency=constituency,
+            going_to_vote="yes",
+            voting_for=party
+        )
+        answers.save()
