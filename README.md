@@ -12,13 +12,26 @@ Running locally
 
 Here are the steps to getting this running locally. You don't have to follow this exactly, if you'd like to use [virtualenv](https://pypi.python.org/pypi/virtualenv) or something, but outlined below is the simplest approach, assuming you're on a Debian-based system.
 
+### Setup
+
 After cloning the project, run the following from inside it:
 
 ``` bash
 $ sudo apt-get install python-pip      # Install pip
 $ sudo pip install -r requirements.txt # Install python dependencies
 $ ./manage syncdb
-$ ./manage runserver
 ```
 
-Now browse to <127.0.0.1:8000>.
+### Running the server
+
+``` bash
+$ ./manage runserver # Development server
+```
+
+And browse to <127.0.0.1:8000>. Or:
+
+``` bash
+$ foreman start # The gunicorn server
+```
+
+And browse to <127.0.0.1:5000>.
