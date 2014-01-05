@@ -1,3 +1,6 @@
 from django.db import models
 
-# Create your models here.
+class Constituency(models.Model):
+    """ Database model for constituencies """
+
+    name = models.CharField(max_length=200)
