@@ -8,24 +8,23 @@ class Migration(DataMigration):
 
     def forwards(self, orm):
         """
-            Import all constutuencies from the mySociety API
+            Import all political parties from the the Guardian API
 
         """
 
         from questionnaire.apihelpers import json_response
 
-        api_key = 'BaNG5WFpYN2nDnnULMAW2bGV'
-        encoding = 'latin1'
-        constituencies_data = json_response('http://www.theyworkforyou.com/api/getConstituencies?key=' + api_key, encoding)
+        response_data = json_response('http://www.theguardian.com/politics/api/party/all/json')
+        parties_data = response_data['parties']
 
-        for constituency_data in constituencies_data:
-            constituency = orm.Constituency(name=constituency_data['name'])
-            constituency.save()
+        for party_data in parties_data:
+            party = orm.Party(name=party_data['name'], abbreviation=party_data['abbreviation'])
+            party.save()
 
     def backwards(self, orm):
-        """ Empty the constituency table """
+        """ Empty the party table """
 
-        orm.Constituency.objects.all().delete()
+        orm.Party.objects.all().delete()
 
     models = {
         u'questionnaire.answerset': {
