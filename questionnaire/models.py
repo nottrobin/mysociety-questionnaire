@@ -22,5 +22,5 @@ class AnswerSet(models.Model):
 
     constituency = models.ForeignKey(Constituency)
     going_to_vote = models.CharField(max_length=10, choices=VOTE_OPTIONS)
-    voting_for = models.ForeignKey(Party)
+    voting_for = models.ForeignKey(Party, null=True)
 
