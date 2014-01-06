@@ -54,7 +54,7 @@ def submit_form(request):
     )
     answer_set.save()
 
-    return HttpResponseRedirect(reverse('form'))
+    return HttpResponseRedirect(reverse('results', args=(constituency.id,)))
 
 def results(request, constituency_id=''):
     constituency = None
