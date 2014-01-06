@@ -3,9 +3,29 @@
 <html>
     <head>
         <title>Voting intentions questionnaire</title>
+
+        <style>
+            body {
+                padding: 1em;
+                max-width: 40em;
+                margin-left: auto;
+                margin-right: auto;
+            }
+        </style>
     </head>
 
     <body>
+        <h1>Voting intentions questionnaire</h1>
+
+        <nav>
+            <ul>
+                <li><a href="{% url 'form' %}">Questionnaire form</a></li>
+                <li><a href="{% url 'all_results' %}">All results</a></li>
+            </ul>
+        </nav>
+
+        <main>
 {% block content %}{% endblock %}
+        </main>
     </body>
 </html>
