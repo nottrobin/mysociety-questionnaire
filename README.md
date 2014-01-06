@@ -24,7 +24,9 @@ After cloning the project, run the following from inside it:
 ``` bash
 $ sudo apt-get install python-pip      # Install pip
 $ sudo pip install -r requirements.txt # Install python dependencies
-$ ./manage syncdb
+$ ./manage.py schemamigration questionnaire --auto # Setup migration
+$ ./manage.py syncdb                               # Create DB tables
+$ ./manage.py migrate questionnaire                # Run DB data migrations
 ```
 
 ### Running the server
