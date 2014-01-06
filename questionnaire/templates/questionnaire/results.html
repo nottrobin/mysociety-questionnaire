@@ -1,0 +1,40 @@
+{% extends 'questionnaire/wrapper.html' %}
+
+{% block content %}
+<h1>Party supporters{% if constituency %} in {{ constituency.name }}{% endif %}</h1>
+
+{% if party_stats|length > 0 %}
+<table>
+    <tr><th>Party</th><th>Voters</th><th>Undecided</th><th>Non-voters</th></tr>
+{% for party in party_stats %}
+    <tr><td>{{ party.name }}</td><td>{{ party.voters }}</td><td>{{ party.undecideds }}</td><td>{{ party.nonvoters }}</td></tr>
+{% endfor %}
+</table>
+{% else %}
+We have no data for this constituency yet.
+{% endif %}
+
+<p><a href="{% url 'form' %}">Back to the form</a></p>
+
+<p>
+    See results for
+    <a href="/results/">all constituencies</a>
+    or choose by constituency:
+</p>
+
+<select id="constituency" name="constituency">
+    <option>Please select...</option>
+{% for constituency in constituencies %}
+    <option value="{{ constituency.id }}">{{ constituency.name }}</option>
+{% endfor %}
+</select>
+
+<script>
+    var constituencySelect = document.getElementById('constituency');
+
+    constituencySelect.onchange = function() {
+        if (this.value.length > 0)
+        window.location.pathname = '{% url "all_results" %}' + this.value + '/';
+    }
+</script>
+{% endblock content %}

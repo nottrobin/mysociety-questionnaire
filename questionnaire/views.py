@@ -55,3 +55,38 @@ def submit_form(request):
     answer_set.save()
 
     return HttpResponseRedirect(reverse('form'))
+
+def results(request, constituency_id=''):
+    constituency = None
+
+    if (constituency_id and constituency_id.isdigit()):
+        constituency = Constituency.objects.get(id=constituency_id)
+        answers = AnswerSet.objects.filter(constituency=constituency)
+    else:
+        answers = AnswerSet.objects.all()
+
+    parties = set()
+
+    for answer in answers:
+        if (answer.voting_for):
+            parties.add(answer.voting_for)
+
+    party_stats = []
+
+    for party in parties:
+        party_stats.append({
+            'name': party.name,
+            'voters': answers.filter(voting_for=party, going_to_vote='yes').count(),
+            'undecideds': answers.filter(voting_for=party, going_to_vote='undecided').count(),
+            'nonvoters': answers.filter(voting_for=party, going_to_vote='no').count()
+        })
+
+    return render(
+        request,
+        'questionnaire/results.html',
+        {
+            'constituency': constituency,
+            'constituencies': Constituency.objects.all(),
+            'party_stats': party_stats
+        }
+    )
