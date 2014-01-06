@@ -1,0 +1,56 @@
+{% if error %}<p class="highlight">{{ error }}</p>{% endif %}
+
+<form method="post" action="{% url 'submit' %}">
+    {% csrf_token %}
+
+    <label for="constituency" class="required">What is your constituency?</label>
+
+    <select id="constituency" name="constituency">
+        <option value="">Please select...</option>
+{% for constituency in constituencies %}
+        <option
+            value="{{ constituency.id }}"
+{% if data.constituency == constituency.id %}selected{% endif %}
+        >{{ constituency.name }}</option>
+{% endfor %}
+    </select>
+
+    <label class="required">Will you vote in the next election?</label>
+
+    <fieldset class="radio-fields">
+        <label for="voting-yes">Yes</label>
+        <input
+            type="radio" id="voting-yes"
+            name="going-to-vote" value="yes"
+{% if data.voting == 'yes' %}checked{% endif %}
+        />
+
+        <label for="voting-yes">No</label>
+        <input
+            type="radio" id="voting-no"
+            name="going-to-vote" value="no"
+{% if data.voting == 'no' %}checked{% endif %}
+        />
+
+        <label for="voting-undecided">Undecided</label>
+        <input
+            type="radio" id="voting-undecided"
+            name="going-to-vote" value="undecided"
+{% if data.voting == 'undecided' %}checked{% endif %}
+        />
+    </fieldset>
+
+    <label for="party">what party you vote for?</label>
+
+    <select id="party" name="party">
+        <option value="">Please select...</option>
+{% for party in parties %}
+        <option
+            value="{{ party.abbreviation }}"
+{% if data.party == party.abbreviation %}selected{% endif %}
+        >{{ party.name }}</option>
+{% endfor %}
+    </select>
+
+    <button type="submit">Submit</button>
+</form>
