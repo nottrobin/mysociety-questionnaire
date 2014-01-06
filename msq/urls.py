@@ -8,6 +8,5 @@ urlpatterns = patterns('',
     url(r'^$', questionnaire_form, name="form"),
     url(r'^submit/$', submit_form, name="submit"),
     url(r'^results/$', results, name="all_results"),
-    url(r'^results/(?P<constituency_id>\d+)/$', results, name="results"),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^results/(?P<constituency_id>\d+)/$', results, name="results")
 )
